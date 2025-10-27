@@ -1,5 +1,5 @@
 import Gauss_Jordan as gj
-import manuelle_eingabe as me
+import Übungsblatt1.manuelle_eingabe as me
 import numpy as np
 def manual_auswahl():
     """führt den Gauß_JOrdenbefehl aus für eine Matrix, die man eingeben kann
