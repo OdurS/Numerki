@@ -1,5 +1,6 @@
 import Gauss_Jordan as gj
 import manuelle_eingabe as me
+import numpy as np
 def manual_auswahl():
     """führt den Gauß_JOrdenbefehl aus für eine Matrix, die man eingeben kann
     """
@@ -17,6 +18,8 @@ def Beispiel_1():
     [3,  5,  8, -3,  1]
                         ]
     gj.Gauss_Jordan(A1)
+    print("-------------------------------")
+    print("A1_invers ohne rundungsfehler:\n"  + str(np.linalg.inv(A1)))
     
 def Beispiel_2():
     """führt den Gauß_JOrdenbefehl aus für die  Matrix A1
@@ -29,3 +32,5 @@ def Beispiel_2():
     [3,  5,  8, -3,  1]
                          ] 
     gj.Gauss_Jordan(A2)
+    print("-------------------------------")
+    print("A1_invers ohne rundungsfehler:\n" + str(np.linalg.inv(A2)))

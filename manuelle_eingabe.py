@@ -14,3 +14,5 @@ def Matix_eingabe():
         if len(row) != n:
             raise ValueError("Falsche Anzahl von Elementen!")
         A.append(row)
+    print( "EIngabe:" + str(A))
+    return A

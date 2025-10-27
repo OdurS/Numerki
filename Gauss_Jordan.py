@@ -6,11 +6,12 @@ def Gauss_Jordan(A):
      raise ValueError("keine invertierbare Matrix")
  n = reihen
  det = np.linalg.det(A) 
- if(det != 0):
+ if(det == 0):
      raise ValueError("keine invertierbare Matrix")
+
  
  
- I = np.zeros((n, n))
+ I = np.eye(n)
  A_ZSF, I_ZSF =Zeilenstufenform(A,I)
  
  for i in range(n-1, -1, -1): 
@@ -25,10 +26,13 @@ def Gauss_Jordan(A):
             for j in range(n):
                 A_ZSF[k][j] -= faktor * A_ZSF[i][j]
                 I_ZSF[k][j] -= faktor * I_ZSF[i][j] 
+ print("-------------------------------")
+ print("A_invers:")
+ print(I_ZSF)
  
  
  
-def Zeilenstufenform(A;I):
+def Zeilenstufenform(A,I):
     """Formt A in ZSF um ein führt die selben umformungen auf I durch
 
     Args:
