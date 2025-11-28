@@ -42,7 +42,7 @@ a = divDiff(x, f)
 t = np.linspace(-6, 6, 500)
 p = hornerSchema(t, a, x)
 
-# Plot
+
 plt.figure(figsize=(8,5))
 plt.plot(t, p, label="Interpolation", linewidth=2)
 plt.scatter(x, f, color="red", label="Stuetzstellen")
