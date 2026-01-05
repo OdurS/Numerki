@@ -1,0 +1,75 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.image import imread
+
+# ================================
+# 1) Bild einlesen
+# ================================
+A = imread("cameraman.jpg")
+
+# Falls RGB-Bild, auf Grauwert umwandeln
+if A.ndim == 3:
+    A = A.mean(axis=2)
+
+m, n = A.shape
+min_mn = min(m, n)
+
+# ================================
+# 2) SVD
+# ================================
+U, S, Vt = np.linalg.svd(A, full_matrices=False)  # A = U S V^T
+
+# ================================
+# 3) Relativer Approximationsfehler
+# ================================
+rel_errors = []
+
+for k in range(min_mn + 1):
+    # Rang-k Sigma
+    S_k = np.zeros_like(S)
+    S_k[:k] = S[:k]
+    # Rang-k Approximation
+    A_k = (U * S_k) @ Vt
+    # Relativer Fehler (Frobeniusnorm)
+    rel_error = np.linalg.norm(A - A_k, 'fro') / np.linalg.norm(A, 'fro')
+    rel_errors.append(rel_error)
+
+# Plot: Relativer Fehler vs Rang
+plt.figure(figsize=(6,4))
+plt.plot(range(min_mn + 1), rel_errors, marker='o')
+plt.xlabel("Approximationsrang k")
+plt.ylabel("Relativer Fehler ||A - A_k||_F / ||A||_F")
+plt.title("SVD-Approximation: Relativer Fehler vs Rang k")
+plt.grid(True)
+plt.show()
+
+# ================================
+# 4) Visualisierung für bestimmte Fehlerlevels
+# ================================
+error_levels = [0.10, 0.05, 0.01, 0.001]  # 10%, 5%, 1%, 0.1%
+approx_images = []
+
+for tol in error_levels:
+    # Minimalen Rang k finden, der Fehler unterschreitet
+    k = next(i for i, err in enumerate(rel_errors) if err <= tol)
+    # Rang-k Approximation
+    S_k = np.zeros_like(S)
+    S_k[:k] = S[:k]
+    A_k = (U * S_k) @ Vt
+    approx_images.append((k, A_k))
+
+# Plotten der Approximationen
+fig, axes = plt.subplots(1, 4, figsize=(16,4))
+for ax, (k, img), tol in zip(axes, approx_images, error_levels):
+    ax.imshow(img, cmap='gray')
+    ax.set_title(f"k={k}, Fehler<{tol*100:.1f}%")
+    ax.axis('off')
+plt.show()
+
+# ================================
+# 5) Speicheraufwand
+# ================================
+print(f"Originalbild: {m} x {n} = {m*n} Einträge")
+for k, _ in approx_images:
+    storage = k*(m+n+1)
+    print(f"Rang {k}: Speicheraufwand = {storage} Einträge (U_k + Σ_k + V_k)")
