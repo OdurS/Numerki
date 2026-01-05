@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.image import imread
 
-A = imread("cameraman.jpg")
+A = imread("Übungsblatt9\cameraman.jpg")
 
 m, n = A.shape
 min_mn = min(m, n)
@@ -50,4 +50,4 @@ plt.show()
 print(f"Originalbild: {m} x {n} = {m*n} Einträge")
 for k, _ in approx_images:
     storage = k*(m+n+1)
-    print(f"Rang {k}: Speicheraufwand = {storage} Einträge (U_k + Σ_k + V_k)")
+    print(f"Rang {k}: Speicheraufwand = {storage} Einträge (Uk + Σk + Vk)")
